@@ -11,24 +11,7 @@ function Get-NetInterface {
                 $fakeBoundParameters
             )
 
-            $quote = ""
-            if ($wordToComplete.StartsWith("'")) {
-                $quote = "'"
-            }
-            elseif ($wordToComplete.StartsWith('"')) {
-                $quote = '"'
-            }
-
-            if ($wordToComplete.EndsWith("'") -or $wordToComplete.EndsWith('"')) {
-                $wordToComplete = $wordToComplete.Substring(0, $wordToComplete.Length - 1)
-            }
-
-            $result = (Get-NetInterface).Index | Where-Object { "$quote$_$quote" -like "$wordToComplete*" }
-            $results | ForEach-Object {
-                if ($_.Contains(' ')) {
-                    "'$_'"
-                }
-            }
+            (Get-NetInterface).Index | Where-Object { "$_" -like "$wordToComplete*" }
         })]
         [int]
         $Index,
@@ -59,6 +42,9 @@ function Get-NetInterface {
             $results | ForEach-Object {
                 if ($_.Contains(' ')) {
                     "'$_'"
+                }
+                else {
+                    $_
                 }
             }
         })]
