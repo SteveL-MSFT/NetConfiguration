@@ -24,7 +24,7 @@
             LicenseUri = 'https://github.com/SteveL-MSFT/NetConfiguration/blob/master/LICENSE'
             ProjectUri = 'https://github.com/SteveL-MSFT/NetConfiguration'
             ReleaseNotes = 'Initial preview'
-            Prerelease = 'Preview-1'
+            Prerelease = 'Preview1'
         }
     }
 }
