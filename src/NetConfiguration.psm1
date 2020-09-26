@@ -10,7 +10,25 @@ function Get-NetInterface {
                 $commandAst,
                 $fakeBoundParameters
             )
-            (Get-NetInterface).Index | Where-Object { $_ -like "$wordToComplete*" } 
+
+            $quote = ""
+            if ($wordToComplete.StartsWith("'")) {
+                $quote = "'"
+            }
+            elseif ($wordToComplete.StartsWith('"')) {
+                $quote = '"'
+            }
+
+            if ($wordToComplete.EndsWith("'") -or $wordToComplete.EndsWith('"')) {
+                $wordToComplete = $wordToComplete.Substring(0, $wordToComplete.Length - 1)
+            }
+
+            $result = (Get-NetInterface).Index | Where-Object { "$quote$_$quote" -like "$wordToComplete*" }
+            $results | ForEach-Object {
+                if ($_.Contains(' ')) {
+                    "'$_'"
+                }
+            }
         })]
         [int]
         $Index,
@@ -24,8 +42,25 @@ function Get-NetInterface {
                 $commandAst,
                 $fakeBoundParameters
             )
-        
-            (Get-NetInterface).Name | Where-Object { $_ -like "$wordToComplete*" } 
+
+            $quote = ""
+            if ($wordToComplete.StartsWith("'")) {
+                $quote = "'"
+            }
+            elseif ($wordToComplete.StartsWith('"')) {
+                $quote = '"'
+            }
+
+            if ($wordToComplete.EndsWith("'") -or $wordToComplete.EndsWith('"')) {
+                $wordToComplete = $wordToComplete.Substring(0, $wordToComplete.Length - 1)
+            }
+
+            $results = (Get-NetInterface).Name | Where-Object { "$quote$_$quote" -like "$wordToComplete*" }
+            $results | ForEach-Object {
+                if ($_.Contains(' ')) {
+                    "'$_'"
+                }
+            }
         })]
         [string]
         $Name

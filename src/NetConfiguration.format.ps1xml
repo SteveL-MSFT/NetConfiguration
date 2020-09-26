@@ -21,7 +21,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>16</Width>
+            <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Description</Label>
@@ -50,7 +50,7 @@
                 <PropertyName>Index</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>OperationalStatus</PropertyName>                      
+                <PropertyName>OperationalStatus</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
@@ -85,14 +85,32 @@
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
-                    $_.UnicastAddress | Where-Object {
+                    if ($_.UnicastAddress -ne $null) {
+                      # UNIX
+                      $unicastAddress = $_.UnicastAddress
+                    }
+                    else {
+                      # Windows
+                      $unicastAddress = $_.GetIPProperties().UnicastAddresses
+                    }
+
+                    $UnicastAddress | Where-Object {
                         $_.Address.Address -ne $null
                     } | ForEach-Object { $_.Address.IPAddressToString }
                 </ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
-                    $_.UnicastAddress | Where-Object {
+                    if ($_.UnicastAddress -ne $null) {
+                      # UNIX
+                      $unicastAddress = $_.UnicastAddress
+                    }
+                    else {
+                      # Windows
+                      $unicastAddress = $_.GetIPProperties().UnicastAddresses
+                    }
+
+                    $UnicastAddress | Where-Object {
                         $_.Address.Address -eq $null
                     } | ForEach-Object { $_.Address.IPAddressToString }
                 </ScriptBlock>
