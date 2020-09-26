@@ -1,0 +1,106 @@
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <Name>NetInterface</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Net.NetworkInformation.BsdNetworkInterface</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Index</Label>
+            <Width>5</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Status</Label>
+            <Width>6</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Speed</Label>
+            <Width>7</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>16</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>10</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Physical</Label>
+            <Width>12</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>IPv4Address</Label>
+            <Width>16</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>IPv6Address</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Index</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>OperationalStatus</PropertyName>                      
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                    $speed = $_.Speed
+                    if ($speed -gt 1000000000) {
+                        "$($speed / 1000000000)Gb"
+                    }
+                    elseif ($speed -gt 1000000) {
+                        "$($speed / 1000000)Mb"
+                    }
+                    elseif ($speed -gt 1000) {
+                        "$($speed / 1000)Kb"
+                    }
+                    else {
+                        $speed
+                    }
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>NetworkInterfaceType</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                    $_.GetPhysicalAddress()
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                    $_.UnicastAddress | Where-Object {
+                        $_.Address.Address -ne $null
+                    } | ForEach-Object { $_.Address.IPAddressToString }
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                    $_.UnicastAddress | Where-Object {
+                        $_.Address.Address -eq $null
+                    } | ForEach-Object { $_.Address.IPAddressToString }
+                </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>
