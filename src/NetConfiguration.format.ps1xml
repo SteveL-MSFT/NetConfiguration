@@ -3,7 +3,7 @@
     <View>
       <Name>NetInterface</Name>
       <ViewSelectedBy>
-        <TypeName>System.Net.NetworkInformation.BsdNetworkInterface</TypeName>
+        <TypeName>System.Net.NetworkInformation.NetworkInterface</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
